@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
+    "target": "es6",
+    "module": "NodeNext",
     "lib": ["ESNext"],
+    "rootDir": "src",
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "dist",
@@ -12,7 +13,9 @@
     "noUnusedLocals": true,
     "alwaysStrict": true,
     "skipDefaultLibCheck": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "types": ["node"]
   },
   "exclude": ["dist", "src/fixtures", "example"]
 }

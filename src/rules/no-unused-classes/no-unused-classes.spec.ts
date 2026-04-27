@@ -1,39 +1,53 @@
 import * as path from "path";
-import { RuleTester } from "@typescript-eslint/utils/dist/eslint-utils";
+import * as tsParser from "@typescript-eslint/parser";
+import { RuleTester } from "eslint";
 
-import noUnusedClasses from "./no-unused-classes";
+import noUnusedClasses from "./no-unused-classes.js";
 
 const ruleTester = new RuleTester({
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    tsconfigRootDir: path.resolve(__dirname, "../../fixtures"),
-    project: "./tsconfig.json",
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      sourceType: "module",
+    },
   },
 });
 
-ruleTester.run("no-unused-classes", noUnusedClasses, {
+const fixtureFilename = path.resolve(__dirname, "../../fixtures/file.ts");
+
+ruleTester.run("no-unused-classes", noUnusedClasses as any, {
   valid: [
-    `
-      import styles from "./component01.module.css";
+    {
+      code: `
+        import styles from "./component01.module.css";
 
-      const used = styles.main;
-    `,
-    `
-      import styles from "./folder/component02.module.css";
+        const used = styles.main;
+      `,
+      filename: fixtureFilename,
+    },
+    {
+      code: `
+        import styles from "./folder/component02.module.css";
 
-      const used = styles.main;
-    `,
-    `
-      import styles from "./folder/component02.module.css";
+        const used = styles.main;
+      `,
+      filename: fixtureFilename,
+    },
+    {
+      code: `
+        import styles from "./folder/component02.module.css";
 
-      const used = styles['main'];
-    `,
+        const used = styles['main'];
+      `,
+      filename: fixtureFilename,
+    },
     {
       code: `
         import styles from "./component03.module.css";
   
         const used = styles['main'];
       `,
+      filename: fixtureFilename,
       options: [
         {
           markAsUsed: ["not-used"],
@@ -44,7 +58,8 @@ ruleTester.run("no-unused-classes", noUnusedClasses, {
   invalid: [
     {
       code: 'import styles from "./component01.module.css";',
-      errors: [{ messageId: "unusedCssClasses" }],
+      filename: fixtureFilename,
+      errors: [{ messageId: "unusedCssClasses", suggestions: 1 as any }],
     },
     {
       code: `
@@ -52,11 +67,13 @@ ruleTester.run("no-unused-classes", noUnusedClasses, {
 
         const unused = styles;
       `,
-      errors: [{ messageId: "unusedCssClasses" }],
+      filename: fixtureFilename,
+      errors: [{ messageId: "unusedCssClasses", suggestions: 1 as any }],
     },
     {
       code: 'import styles from "./folder/component02.module.css";',
-      errors: [{ messageId: "unusedCssClasses" }],
+      filename: fixtureFilename,
+      errors: [{ messageId: "unusedCssClasses", suggestions: 1 as any }],
     },
     {
       code: `
@@ -64,7 +81,8 @@ ruleTester.run("no-unused-classes", noUnusedClasses, {
 
         const unused = styles;
       `,
-      errors: [{ messageId: "unusedCssClasses" }],
+      filename: fixtureFilename,
+      errors: [{ messageId: "unusedCssClasses", suggestions: 1 as any }],
     },
     {
       code: `
@@ -72,7 +90,8 @@ ruleTester.run("no-unused-classes", noUnusedClasses, {
 
         const used = styles['main'];
       `,
-      errors: [{ messageId: "unusedCssClasses" }],
+      filename: fixtureFilename,
+      errors: [{ messageId: "unusedCssClasses", suggestions: 1 as any }],
     },
   ],
 });

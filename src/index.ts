@@ -1,9 +1,32 @@
-import rules from "./rules";
-import configs from "./configs";
+import rules from "./rules/index.js";
+import createConfigs from "./configs/create-configs.js";
 
-const configuration = {
+import pkg from "./pkg.js";
+
+const plugin: {
+  meta: {
+    name: string;
+    version: string;
+  };
+  rules: typeof rules;
+  configs: {
+    [key: string]: unknown;
+    legacy: unknown;
+    recommended: unknown;
+  };
+} = {
+  meta: {
+    name: pkg.name,
+    version: pkg.version,
+  },
   rules,
-  configs,
+  configs: {} as {
+    [key: string]: unknown;
+    legacy: unknown;
+    recommended: unknown;
+  },
 };
 
-export = configuration;
+plugin.configs = createConfigs(plugin);
+
+export default plugin;

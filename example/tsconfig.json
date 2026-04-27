@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "paths": {
-      "@jesper/eslint-plugin-css-modules": ["../"]
+      "@jespers/eslint-plugin-css-modules": ["../"]
     }
   }
 }

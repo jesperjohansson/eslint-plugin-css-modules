@@ -60,7 +60,7 @@ function getCssFileClassNames(cssAst: cssTree.CssNode): Set<string> {
 
   cssTree.walk(cssAst, {
     visit: "ClassSelector",
-    enter(node) {
+    enter(node: cssTree.ClassSelector) {
       classNames.add(node.name);
     },
   });
@@ -133,8 +133,7 @@ const rule = createRule({
     ],
     docs: {
       description: "Check for any unused classes in imported CSS modules",
-      recommended: "error",
-      suggestion: true,
+      url: "https://github.com/jesperjohansson/eslint-plugin-css-modules",
     },
     messages: {
       unusedCssClasses:
@@ -145,6 +144,8 @@ const rule = createRule({
     fixable: "code",
   },
   create(context) {
+    const sourceCode = context.sourceCode;
+
     type SourceFilePath = string;
 
     const files: Map<
@@ -215,7 +216,7 @@ const rule = createRule({
          */
         const propertyName: string | null = ASTUtils.getPropertyName(
           node,
-          context.getScope()
+          sourceCode.getScope(node)
         );
 
         if (propertyName) {

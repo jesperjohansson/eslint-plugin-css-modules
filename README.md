@@ -10,21 +10,13 @@ yarn add --dev @jespers/eslint-plugin-css-modules
 
 Configure:
 
-```json
-{
-  "extends": ["plugin:@jespers/css-modules/recommended"]
-}
-```
+ESLint v9 (flat config):
 
-or:
+```js
+import { defineConfig } from "eslint/config";
+import cssModules from "@jespers/eslint-plugin-css-modules";
 
-```json
-{
-  "plugins": ["@jespers/css-modules"],
-  "rules": {
-    "@jespers/css-modules/no-unused-classes": "error"
-  }
-}
+export default defineConfig([cssModules.configs.recommended]);
 ```
 
 <img width="623" alt="image" src="https://github.com/jesperjohansson/eslint-plugin-css-modules/assets/21033162/f8a572d1-b00c-4af7-b48e-c97de9da8fa1">

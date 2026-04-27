@@ -1,4 +1,4 @@
-import noUnusedClasses from "./no-unused-classes/no-unused-classes";
+import noUnusedClasses from "./no-unused-classes/no-unused-classes.js";
 
 const rules = {
   "no-unused-classes": noUnusedClasses,
